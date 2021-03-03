@@ -1,0 +1,10 @@
+{
+  "floors": [],
+  "vertices": [],
+  "edges": [],
+  "rooms": {
+    "106": {
+      "vertices": ["a"]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "floors": [
+    {
+      "number": "1",
+      "image": "assets/map/1st_floor.svg",
+      "offsets": [0, 0]
+    },
+    {
+      "number": "1",
+      "image": "assets/map/2nd_floor.svg",
+      "offsets": [0, 0]
+    }
+  ],
+  "vertices": [],
+  "edges": [],
+  "rooms": {}
+}

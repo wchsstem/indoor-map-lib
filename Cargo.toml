@@ -1,0 +1,23 @@
+[package]
+name = "indoor-map-lib"
+version = "0.1.0"
+authors = ["nvarner <nathanmvarner@protonmail.com>"]
+edition = "2018"
+
+[features]
+compile_map_json = ["structopt", "svg"]
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+
+structopt = { version = "0.3", optional = true }
+svg = { version = "0.9", optional = true }
+
+[dev-dependencies]
+common_macros = "0.1"
+
+[[bin]]
+name = "compile_map_json"
+required-features = ["compile_map_json"]

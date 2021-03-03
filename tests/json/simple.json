@@ -1,0 +1,41 @@
+{
+  "floors": [
+    {
+      "number": "1",
+      "image": "assets/map/1st_floor.svg",
+      "offsets": [0, 0]
+    }
+  ],
+  "vertices": [
+    {
+      "id": "a",
+      "floor": "1",
+      "location": [434.875, 288],
+      "tags": ["stairs"]
+    },
+    {
+      "id": "b",
+      "floor": "1",
+      "location": [0, 0]
+    },
+    {
+      "id": "c",
+      "floor": "1",
+      "location": [0, 1]
+    }
+  ],
+  "edges": [
+    ["c", "b"],
+    ["a", "b", true]
+  ],
+  "rooms": {
+    "106": {
+      "vertices": ["a"]
+    },
+    "107": {
+      "vertices": ["b", "c"],
+      "center": [489.9375, 36.9375],
+      "names": ["guidance", "guidance office", "counselors", "counseling office"]
+    }
+  }
+}
