@@ -6,24 +6,21 @@
       "offsets": [0, 0]
     }
   ],
-  "vertices": [
-    {
-      "id": "a",
+  "vertices": {
+    "a": {
       "floor": "1",
       "location": [434.875, 288],
       "tags": ["stairs"]
     },
-    {
-      "id": "b",
+    "b": {
       "floor": "1",
       "location": [0, 0]
     },
-    {
-      "id": "c",
+    "c": {
       "floor": "1",
       "location": [0, 1]
     }
-  ],
+  },
   "edges": [
     ["c", "b"],
     ["a", "b", true]

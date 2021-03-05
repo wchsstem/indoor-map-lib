@@ -6,13 +6,12 @@
       "offsets": [0, 0]
     }
   ],
-  "vertices": [
-    {
-      "id": "a",
+  "vertices": {
+    "a": {
       "floor": "2",
       "location": [0, 0]
     }
-  ],
+  },
   "edges": [],
   "rooms": {}
 }

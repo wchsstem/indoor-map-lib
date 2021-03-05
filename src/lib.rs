@@ -9,14 +9,14 @@ use serde_json::Value;
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 pub struct MapData {
     floors: Vec<Floor>,
-    vertices: Vec<Vertex>,
+    vertices: HashMap<String, Vertex>,
     edges: Vec<Edge>,
     rooms: HashMap<String, Room>,
 }
 
 impl MapData {
     fn unique<'a, T: Eq + Hash>(
-        items: impl Iterator<Item=&'a T>,
+        items: impl Iterator<Item = &'a T>,
     ) -> Result<HashSet<&'a T>, &'a T> {
         items.fold(Ok(HashSet::new()), |acc, element| match acc {
             Ok(mut acc) => {
@@ -32,7 +32,7 @@ impl MapData {
     }
 
     fn undefined<'a, T: Eq + Hash>(
-        mut items: impl Iterator<Item=&'a T>,
+        mut items: impl Iterator<Item = &'a T>,
         defined: &HashSet<&T>,
     ) -> Result<(), &'a T> {
         if let Some(undefined_item) = items.find(|item| !defined.contains(item)) {
@@ -55,23 +55,21 @@ impl MapData {
         let floor_numbers = Self::unique(self.floors.iter().map(|f| &f.number))
             .map_err(|repeat| MapDataError::RepeatedFloorNumber(repeat.to_owned()))?;
 
-        // Get vertex IDs and check that all are unique
-        let vertex_ids = Self::unique(self.vertices.iter().map(|v| &v.id))
-            .map_err(|repeat| MapDataError::RepeatedVertexId(repeat.to_owned()))?;
-
         // Check that there are no undefined floor numbers
-        Self::undefined(self.vertices.iter().map(|v| &v.floor), &floor_numbers).map_err(
-            |floor_number| MapDataError::UndefinedFloorNumber(floor_number.clone()),
-        )?;
+        Self::undefined(
+            self.vertices.iter().map(|(_id, v)| &v.floor),
+            &floor_numbers,
+        )
+        .map_err(|floor_number| MapDataError::UndefinedFloorNumber(floor_number.clone()))?;
 
         // Check that there are no undefined vertices in the rooms
         let room_vertex_ids = self.rooms.values().map(|r| &r.vertices).flatten();
-        Self::undefined(room_vertex_ids, &vertex_ids)
+        Self::undefined(room_vertex_ids, &self.vertices.keys().collect())
             .map_err(|vertex_id| MapDataError::UndefinedVertexId(vertex_id.clone()))?;
 
         // Check that there are no undefined vertices in the edges
         let edge_vertex_ids = self.edges.iter().map(|e| vec![&e.from, &e.to]).flatten();
-        Self::undefined(edge_vertex_ids, &vertex_ids)
+        Self::undefined(edge_vertex_ids, &self.vertices.keys().collect())
             .map_err(|vertex_id| MapDataError::UndefinedVertexId(vertex_id.clone()))?;
 
         Ok(self)
@@ -121,7 +119,6 @@ impl Floor {
 
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 pub struct Vertex {
-    id: String,
     floor: String,
     location: (f32, f32),
     #[serde(default)]
@@ -167,7 +164,11 @@ struct EdgeJson(Vec<Value>);
 impl From<Edge> for EdgeJson {
     fn from(edge: Edge) -> Self {
         if edge.directed {
-            Self(vec![Value::String(edge.from), Value::String(edge.to), Value::Bool(true)])
+            Self(vec![
+                Value::String(edge.from),
+                Value::String(edge.to),
+                Value::Bool(true),
+            ])
         } else {
             Self(vec![Value::String(edge.from), Value::String(edge.to)])
         }
@@ -235,21 +236,18 @@ mod test {
                 image: "assets/map/1st_floor.svg".into(),
                 offsets: (0.0, 0.0),
             }],
-            vertices: vec![
-                Vertex {
-                    id: "a".to_string(),
+            vertices: hash_map![
+                "a".to_string() => Vertex {
                     floor: "1".to_string(),
                     location: (434.875, 288.0),
                     tags: hash_set![VertexTag::Stairs],
                 },
-                Vertex {
-                    id: "b".to_string(),
+                "b".to_string() => Vertex {
                     floor: "1".to_string(),
                     location: (0.0, 0.0),
                     tags: hash_set![],
                 },
-                Vertex {
-                    id: "c".to_string(),
+                "c".to_string() => Vertex {
                     floor: "1".to_string(),
                     location: (0.0, 1.0),
                     tags: hash_set![],
