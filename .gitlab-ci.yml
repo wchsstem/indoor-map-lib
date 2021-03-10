@@ -1,0 +1,19 @@
+stages:
+  - check
+  - build
+
+check:
+  stage: check
+  image: rust:latest
+  script:
+    - cargo check --verbose
+    - cargo test --verbose
+
+build:
+  stage: build
+  image: rust:latest
+  artifacts:
+    paths:
+      - target/release/compile_map_json
+  script:
+    - cargo build --release --features compile_map_json
