@@ -269,12 +269,14 @@ mod test {
                 "106".to_string() => Room {
                     vertices: hash_set!["a".to_string()],
                     center: None,
-                    names: hash_set![],
+                    outline: vec![],
+                    names: vec![],
                 },
                 "107".to_string() => Room {
                     vertices: hash_set!["b".to_string(), "c".to_string()],
                     center: Some((489.9375, 36.9375)),
-                    names: hash_set![
+                    outline: vec![],
+                    names: vec![
                         "guidance".to_string(),
                         "guidance office".to_string(),
                         "counselors".to_string(),
@@ -292,8 +294,10 @@ mod test {
         let map_data = MapData::new(&json);
         match map_data {
             Err(error) => match error {
-                MapDataError::RepeatedFloorNumber(number) => assert_eq!("1", &number),
-                _ => panic!("Should be repeated floor number 1"),
+                MapDataDeserializeError::MapDataError(MapDataError::RepeatedFloorNumber(
+                    number,
+                )) => assert_eq!("1", &number),
+                _ => panic!("Should be repeated floor number 1, was {:?}", error),
             },
             Ok(_) => panic!("Should be error"),
         }
@@ -305,7 +309,9 @@ mod test {
         let map_data = MapData::new(&json);
         match map_data {
             Err(error) => match error {
-                MapDataError::RepeatedVertexId(id) => assert_eq!("a", &id),
+                MapDataDeserializeError::MapDataError(MapDataError::RepeatedVertexId(id)) => {
+                    assert_eq!("a", &id)
+                }
                 _ => panic!("Should be repeated vertex id"),
             },
             Ok(_) => panic!("Should be error"),
@@ -318,7 +324,7 @@ mod test {
         let map_data = MapData::new(&json);
         match map_data {
             Err(error) => match error {
-                MapDataError::UndefinedFloorNumber(floor_number) => {
+                MapDataDeserializeError::MapDataError(MapDataError::UndefinedFloorNumber(floor_number)) => {
                     assert_eq!("2".to_owned(), floor_number);
                 }
                 _ => panic!("Should be undefined floor numbers"),
@@ -333,10 +339,10 @@ mod test {
         let map_data = MapData::new(&json);
         match map_data {
             Err(error) => match error {
-                MapDataError::UndefinedVertexId(vertex_id) => {
+                MapDataDeserializeError::MapDataError(MapDataError::UndefinedVertexId(vertex_id)) => {
                     assert_eq!("a".to_owned(), vertex_id);
                 }
-                _ => panic!("Should be undefined vertex id"),
+                _ => panic!("Should be undefined vertex id, was {:?}", error),
             },
             Ok(_) => panic!("Should be error"),
         }
@@ -348,7 +354,7 @@ mod test {
         let map_data = MapData::new(&json);
         match map_data {
             Err(error) => match error {
-                MapDataError::UndefinedVertexId(vertex_id) => {
+                MapDataDeserializeError::MapDataError(MapDataError::UndefinedVertexId(vertex_id)) => {
                     assert_eq!("b".to_owned(), vertex_id);
                 }
                 _ => panic!("Should be undefined vertex id"),
