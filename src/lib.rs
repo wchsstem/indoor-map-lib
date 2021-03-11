@@ -142,6 +142,8 @@ pub struct Room {
     center: Option<(f32, f32)>,
     #[serde(default)]
     outline: Vec<(f32, f32)>,
+    #[serde(default)]
+    area: Option<f32>,
 }
 
 impl Room {
@@ -155,6 +157,14 @@ impl Room {
 
     pub fn set_center(&mut self, center: Option<(f32, f32)>) {
         self.center = center;
+    }
+
+    pub fn area(&self) -> &Option<f32> {
+        &self.area
+    }
+
+    pub fn set_area(&mut self, area: Option<f32>) {
+        self.area = area;
     }
 }
 

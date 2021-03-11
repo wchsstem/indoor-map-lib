@@ -88,10 +88,6 @@ impl SvgRoom {
                 .into_iter()
                 .map(|coords| transformed(coords, offsets))
                 .collect(),
-            // SvgRoomShape::Path(path_data) => path_to_points(path_data)
-            //     .into_iter()
-            //     .map(|coords| transformed(coords, offsets))
-            //     .collect(),
             SvgRoomShape::Path(path_data) => Path::from(path_data)
                 .into_iter()
                 // TODO: Integrate interfaces to avoid this:         \/
@@ -178,7 +174,6 @@ fn main() {
         let rooms = svg_reader.filter_map(|event| SvgRoom::try_from(event).ok());
         for room in rooms {
             let outline = room.outline(offsets);
-            let center = centroid(&outline);
 
             let old_room = match map_data.room_mut(&room.number) {
                 Some(old_room) => old_room,
@@ -188,11 +183,17 @@ fn main() {
                 }
             };
 
-            old_room.set_outline(outline);
-
             if old_room.center().is_none() {
+                let center = centroid(&outline);
                 old_room.set_center(Some(center));
             }
+
+            if old_room.area().is_none() {
+                let area = shoelace_area(&outline).abs();
+                old_room.set_area(Some(area));
+            }
+
+            old_room.set_outline(outline);
         }
     }
 
