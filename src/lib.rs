@@ -122,7 +122,7 @@ pub struct Vertex {
     floor: String,
     location: (f32, f32),
     #[serde(default)]
-    tags: HashSet<VertexTag>,
+    tags: Option<HashSet<VertexTag>>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Hash)]
@@ -144,6 +144,24 @@ pub struct Room {
     outline: Vec<(f32, f32)>,
     #[serde(default)]
     area: Option<f32>,
+    #[serde(default)]
+    tags: Option<HashSet<RoomTag>>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Hash)]
+pub enum RoomTag {
+    #[serde(rename = "closed")]
+    Closed,
+    #[serde(rename = "women-bathroom")]
+    WomenBathroom,
+    #[serde(rename = "men-bathroom")]
+    MenBathroom,
+    #[serde(rename = "unknown-bathroom")]
+    UnknownBathroom,
+    #[serde(rename = "bsc")]
+    BSC,
+    #[serde(rename = "ec")]
+    EC,
 }
 
 impl Room {
@@ -250,17 +268,17 @@ mod test {
                 "a".to_string() => Vertex {
                     floor: "1".to_string(),
                     location: (434.875, 288.0),
-                    tags: hash_set![VertexTag::Stairs],
+                    tags: Some(hash_set![VertexTag::Stairs]),
                 },
                 "b".to_string() => Vertex {
                     floor: "1".to_string(),
                     location: (0.0, 0.0),
-                    tags: hash_set![],
+                    tags: None,
                 },
                 "c".to_string() => Vertex {
                     floor: "1".to_string(),
                     location: (0.0, 1.0),
-                    tags: hash_set![],
+                    tags: None,
                 },
             ],
             edges: vec![
@@ -281,6 +299,8 @@ mod test {
                     center: None,
                     outline: vec![],
                     names: vec![],
+                    area: None,
+                    tags: None,
                 },
                 "107".to_string() => Room {
                     vertices: hash_set!["b".to_string(), "c".to_string()],
@@ -292,6 +312,8 @@ mod test {
                         "counselors".to_string(),
                         "counseling office".to_string(),
                     ],
+                    area: None,
+                    tags: None,
                 },
             },
         };
@@ -308,21 +330,6 @@ mod test {
                     number,
                 )) => assert_eq!("1", &number),
                 _ => panic!("Should be repeated floor number 1, was {:?}", error),
-            },
-            Ok(_) => panic!("Should be error"),
-        }
-    }
-
-    #[test]
-    fn reject_repeat_vertex_id() {
-        let json = file("tests/json/repeat_vertex_id.json");
-        let map_data = MapData::new(&json);
-        match map_data {
-            Err(error) => match error {
-                MapDataDeserializeError::MapDataError(MapDataError::RepeatedVertexId(id)) => {
-                    assert_eq!("a", &id)
-                }
-                _ => panic!("Should be repeated vertex id"),
             },
             Ok(_) => panic!("Should be error"),
         }
