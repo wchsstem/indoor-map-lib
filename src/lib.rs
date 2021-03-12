@@ -137,7 +137,7 @@ pub enum VertexTag {
 pub struct Room {
     vertices: HashSet<String>,
     #[serde(default)]
-    names: Vec<String>,
+    names: Option<Vec<String>>,
     #[serde(default)]
     center: Option<(f32, f32)>,
     #[serde(default)]
@@ -306,7 +306,7 @@ mod test {
                     vertices: hash_set!["a".to_string()],
                     center: None,
                     outline: vec![],
-                    names: vec![],
+                    names: None,
                     area: None,
                     tags: None,
                 },
@@ -314,12 +314,12 @@ mod test {
                     vertices: hash_set!["b".to_string(), "c".to_string()],
                     center: Some((489.9375, 36.9375)),
                     outline: vec![],
-                    names: vec![
+                    names: Some(vec![
                         "guidance".to_string(),
                         "guidance office".to_string(),
                         "counselors".to_string(),
                         "counseling office".to_string(),
-                    ],
+                    ]),
                     area: None,
                     tags: None,
                 },
