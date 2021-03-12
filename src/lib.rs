@@ -137,6 +137,7 @@ pub enum VertexTag {
 pub struct Room {
     vertices: HashSet<String>,
     #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     names: Option<Vec<String>>,
     #[serde(default)]
     center: Option<(f32, f32)>,
@@ -145,6 +146,7 @@ pub struct Room {
     #[serde(default)]
     area: Option<f32>,
     #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     tags: Option<HashSet<RoomTag>>,
 }
 
