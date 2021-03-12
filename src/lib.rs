@@ -162,6 +162,8 @@ pub enum RoomTag {
     BSC,
     #[serde(rename = "ec")]
     EC,
+    #[serde(rename = "wf")]
+    WF,
 }
 
 impl Room {
