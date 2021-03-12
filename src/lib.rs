@@ -164,6 +164,12 @@ pub enum RoomTag {
     EC,
     #[serde(rename = "wf")]
     WF,
+    #[serde(rename = "hs")]
+    HS,
+    #[serde(rename = "bleed-control")]
+    BleedControl,
+    #[serde(rename = "aed")]
+    AED,
 }
 
 impl Room {
