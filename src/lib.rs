@@ -174,7 +174,7 @@ pub enum RoomTag {
     AED,
     #[serde(rename = "ahu")]
     AHU,
-    #[serde(rename = "ifd")]
+    #[serde(rename = "idf")]
     IDF,
     #[serde(rename = "mdf")]
     MDF,
