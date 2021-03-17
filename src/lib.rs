@@ -131,6 +131,10 @@ pub enum VertexTag {
     Stairs,
     #[serde(rename = "elevator")]
     Elevator,
+    #[serde(rename = "up")]
+    Up,
+    #[serde(rename = "down")]
+    Down,
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
