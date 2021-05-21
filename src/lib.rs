@@ -184,6 +184,8 @@ pub enum RoomTag {
     MDF,
     #[serde(rename = "eru")]
     ERU,
+    #[serde(rename = "cp")]
+    CP,
 }
 
 impl Room {
