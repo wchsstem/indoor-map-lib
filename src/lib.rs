@@ -1,3 +1,4 @@
+pub mod bounding_box;
 pub mod svg_parser;
 pub mod util;
 

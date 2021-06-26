@@ -1,5 +1,6 @@
 use std::iter::Peekable;
 
+use crate::bounding_box::BoundingBox;
 use crate::util::max_f64;
 use anyhow::anyhow;
 use nalgebra::{Matrix3, Vector2, Vector3};
@@ -12,8 +13,7 @@ use svg::Parser;
 
 #[derive(Debug)]
 pub struct SvgElement {
-    global_top_left: Vector2<f64>,
-    size: Vector2<f64>,
+    bounding_box: BoundingBox,
     children: Vec<SvgElement>,
 }
 
@@ -26,7 +26,26 @@ impl SvgElement {
     }
 
     pub fn get_bottom_right(&self) -> Vector2<f64> {
-        self.global_top_left + self.size
+        self.bounding_box.get_bottom_right()
+    }
+
+    /// Returns `Some` if this element overlaps the given bounding box. The returned element only
+    /// has the children of this element which overlap the bounding box, the children only keep
+    /// their children which overlap, and so on.
+    pub fn select_with(&self, bounding_box: &BoundingBox) -> Option<Self> {
+        if self.bounding_box.intersects(bounding_box) {
+            let selected_children = self
+                .children
+                .iter()
+                .filter_map(|child| child.select_with(bounding_box))
+                .collect::<Vec<_>>();
+            Some(Self {
+                bounding_box: self.bounding_box.clone(),
+                children: selected_children,
+            })
+        } else {
+            None
+        }
     }
 
     fn get_attr_num(attributes: &Attributes, key: &str) -> Result<Option<f64>, ParseFloatError> {
@@ -140,8 +159,7 @@ impl SvgElement {
                 attributes
             )),
             Type::Empty => Ok(Self {
-                global_top_left,
-                size,
+                bounding_box: BoundingBox::new(global_top_left, size),
                 children: vec![],
             }),
             Type::Start => {
@@ -165,8 +183,7 @@ impl SvgElement {
                 let actual_size = actual_bottom_right - global_top_left;
 
                 Ok(Self {
-                    global_top_left,
-                    size: actual_size,
+                    bounding_box: BoundingBox::new(global_top_left, actual_size),
                     children,
                 })
             }
