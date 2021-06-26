@@ -85,9 +85,9 @@ impl SvgRoom {
                 (x + width, y + height),
                 (x + width, *y),
             ]
-                .into_iter()
-                .map(|coords| transformed(coords, offsets))
-                .collect(),
+            .into_iter()
+            .map(|coords| transformed(coords, offsets))
+            .collect(),
             SvgRoomShape::Path(path_data) => Path::from(path_data)
                 .into_iter()
                 // TODO: Integrate interfaces to avoid this:         \/

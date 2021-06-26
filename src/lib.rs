@@ -1,3 +1,6 @@
+pub mod svg_parser;
+pub mod util;
+
 use std::collections::{HashMap, HashSet};
 use std::convert::TryFrom;
 use std::hash::Hash;
@@ -365,7 +368,9 @@ mod test {
         let map_data = MapData::new(&json);
         match map_data {
             Err(error) => match error {
-                MapDataDeserializeError::MapDataError(MapDataError::UndefinedFloorNumber(floor_number)) => {
+                MapDataDeserializeError::MapDataError(MapDataError::UndefinedFloorNumber(
+                    floor_number,
+                )) => {
                     assert_eq!("2".to_owned(), floor_number);
                 }
                 _ => panic!("Should be undefined floor numbers"),
@@ -380,7 +385,9 @@ mod test {
         let map_data = MapData::new(&json);
         match map_data {
             Err(error) => match error {
-                MapDataDeserializeError::MapDataError(MapDataError::UndefinedVertexId(vertex_id)) => {
+                MapDataDeserializeError::MapDataError(MapDataError::UndefinedVertexId(
+                    vertex_id,
+                )) => {
                     assert_eq!("a".to_owned(), vertex_id);
                 }
                 _ => panic!("Should be undefined vertex id, was {:?}", error),
@@ -395,7 +402,9 @@ mod test {
         let map_data = MapData::new(&json);
         match map_data {
             Err(error) => match error {
-                MapDataDeserializeError::MapDataError(MapDataError::UndefinedVertexId(vertex_id)) => {
+                MapDataDeserializeError::MapDataError(MapDataError::UndefinedVertexId(
+                    vertex_id,
+                )) => {
                     assert_eq!("b".to_owned(), vertex_id);
                 }
                 _ => panic!("Should be undefined vertex id"),

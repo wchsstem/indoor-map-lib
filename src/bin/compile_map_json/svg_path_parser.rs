@@ -29,32 +29,28 @@ impl Command {
             RawCommand::SmoothQuadraticCurve(position, parameters)
             | RawCommand::Move(position, parameters)
             | RawCommand::Line(position, parameters) => {
-                let coords = parameters.chunks_exact(2)
-                    .map(|chunk| (chunk[0], chunk[1]));
+                let coords = parameters.chunks_exact(2).map(|chunk| (chunk[0], chunk[1]));
                 Self::from_coords_position(coords, *position, last_command)
             }
             RawCommand::SmoothCubicCurve(position, parameters)
             | RawCommand::QuadraticCurve(position, parameters) => {
-                let coords = parameters.chunks_exact(4)
-                    .map(|chunk| (chunk[2], chunk[3]));
+                let coords = parameters.chunks_exact(4).map(|chunk| (chunk[2], chunk[3]));
                 Self::from_coords_position(coords, *position, last_command)
             }
             RawCommand::CubicCurve(position, parameters) => {
-                let coords = parameters.chunks_exact(6)
-                    .map(|chunk| (chunk[4], chunk[5]));
+                let coords = parameters.chunks_exact(6).map(|chunk| (chunk[4], chunk[5]));
                 Self::from_coords_position(coords, *position, last_command)
             }
             RawCommand::EllipticalArc(position, parameters) => {
-                let coords = parameters.chunks_exact(7)
-                    .map(|chunk| (chunk[5], chunk[6]));
+                let coords = parameters.chunks_exact(7).map(|chunk| (chunk[5], chunk[6]));
                 Self::from_coords_position(coords, *position, last_command)
             }
         }
     }
 
     fn from_coords_position<T>(coords: T, position: Position, last_command: Command) -> Vec<Command>
-        where
-            T: Iterator<Item=(f32, f32)>,
+    where
+        T: Iterator<Item = (f32, f32)>,
     {
         match position {
             Position::Absolute => coords.map(|(x, y)| Command(x, y)).collect(),
@@ -90,7 +86,7 @@ impl From<&path::Data> for Path {
                             acc.extend(command.into_iter());
                             (acc, new_last_command)
                         }
-                        None => (acc, last_command)
+                        None => (acc, last_command),
                     }
                 },
             )
@@ -101,7 +97,7 @@ impl From<&path::Data> for Path {
 }
 
 impl Path {
-    pub fn into_iter(self) -> impl Iterator<Item=Command> {
+    pub fn into_iter(self) -> impl Iterator<Item = Command> {
         self.path.into_iter()
     }
 }
