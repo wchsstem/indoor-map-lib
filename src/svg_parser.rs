@@ -56,7 +56,7 @@ impl SvgElement {
     }
 
     fn parse_matrix_transform(matrix: &str) -> anyhow::Result<Matrix3<f64>> {
-        let data_str = matrix.trim_start_matches("matrix(").trim_end_matches(")");
+        let data_str = matrix.trim_start_matches("matrix(").trim_end_matches(')');
         let data = data_str
             .split_whitespace()
             .map(|num| num.parse())
@@ -76,12 +76,12 @@ impl SvgElement {
     fn parse_translate_transform(translate: &str) -> anyhow::Result<Matrix3<f64>> {
         let data_str = translate
             .trim_start_matches("translate(")
-            .trim_end_matches(")");
+            .trim_end_matches(')');
         let data = data_str
             .split_whitespace()
             .map(|num| num.parse())
             .collect::<Result<Vec<f64>, _>>()?;
-        if data.len() < 1 || data.len() > 2 {
+        if data.is_empty() || data.len() > 2 {
             Err(anyhow!(
                 "Wrong number of arguments to translate transform: {:?}",
                 translate
