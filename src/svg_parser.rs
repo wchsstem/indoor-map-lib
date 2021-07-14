@@ -29,6 +29,10 @@ impl SvgElement {
         self.bounding_box.get_bottom_right()
     }
 
+    pub fn get_bounding_box(&self) -> BoundingBox {
+        self.bounding_box.clone()
+    }
+
     /// Returns `Some` if this element overlaps the given bounding box. The returned element only
     /// has the children of this element which overlap the bounding box, the children only keep
     /// their children which overlap, and so on.
