@@ -20,5 +20,7 @@ impl Layer {
         })
     }
 
-    fn bounding_box_for_tile_coords(coords: TileCoords) -> BoundingBox {}
+    fn bounding_box_for_tile_coords(&self, coords: TileCoords) -> BoundingBox {
+        BoundingBox::new(coords)
+    }
 }

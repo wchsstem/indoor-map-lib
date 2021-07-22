@@ -3,8 +3,8 @@ use nalgebra::Vector2;
 
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct TileCoords {
-    location: Vector2<i32>,
-    zoom: i32,
+    pub location: Vector2<i32>,
+    pub zoom: i32,
 }
 
 #[derive(Debug)]
