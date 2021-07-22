@@ -162,6 +162,10 @@ pub enum RoomTag {
     WomenBathroom,
     #[serde(rename = "men-bathroom")]
     MenBathroom,
+    #[serde(rename = "staff-women-bathroom")]
+    StaffWomenBathroom,
+    #[serde(rename = "staff-men-bathroom")]
+    StaffMenBathroom,
     #[serde(rename = "unknown-bathroom")]
     UnknownBathroom,
     #[serde(rename = "bsc")]
