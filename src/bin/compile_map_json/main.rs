@@ -8,10 +8,8 @@ use structopt::StructOpt;
 use svg::node::element::path;
 use svg::parser::Event;
 
+use indoor_map_lib::svg_path_parser::Path;
 use indoor_map_lib::MapData;
-use svg_path_parser::Path;
-
-mod svg_path_parser;
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "compile_map_json")]

@@ -6,7 +6,7 @@ edition = "2018"
 
 [features]
 compile_map_json = ["structopt"]
-tile_server = []
+svg_splitter = []
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
@@ -26,5 +26,5 @@ name = "compile_map_json"
 required-features = ["compile_map_json"]
 
 [[bin]]
-name = "tile_server"
-required-features = ["tile_server"]
+name = "svg_splitter"
+required-features = ["svg_splitter"]

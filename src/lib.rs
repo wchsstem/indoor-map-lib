@@ -1,7 +1,3 @@
-pub mod bounding_box;
-pub mod svg_parser;
-pub mod util;
-
 use std::collections::{HashMap, HashSet};
 use std::convert::TryFrom;
 use std::hash::Hash;
@@ -9,6 +5,12 @@ use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
+
+pub mod bounding_box;
+pub mod svg_parser;
+pub mod svg_path_parser;
+pub mod transform;
+pub mod util;
 
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 pub struct MapData {
