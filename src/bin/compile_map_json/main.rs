@@ -8,8 +8,8 @@ use structopt::StructOpt;
 use svg::node::element::path;
 use svg::parser::Event;
 
+use indoor_map_lib::map_data::uncompiled;
 use indoor_map_lib::svg_path_parser::Path;
-use indoor_map_lib::MapData;
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "compile_map_json")]
@@ -151,7 +151,7 @@ fn main() {
 
     let base_path = opt.input.parent().expect("Input path should be a file");
 
-    let mut map_data = MapData::new(&input_json).expect("Error in the JSON file");
+    let mut map_data = uncompiled::MapData::new(&input_json).expect("Error in the JSON file");
 
     let floors = map_data.get_floors();
     let floor_images: Vec<_> = floors
