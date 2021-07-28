@@ -96,8 +96,11 @@ impl From<&path::Data> for Path {
     }
 }
 
-impl Path {
-    pub fn into_iter(self) -> impl Iterator<Item = Command> {
+impl IntoIterator for Path {
+    type Item = Command;
+    type IntoIter = <Vec<Command> as IntoIterator>::IntoIter;
+
+    fn into_iter(self) -> Self::IntoIter {
         self.path.into_iter()
     }
 }

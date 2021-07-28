@@ -25,11 +25,11 @@ pub struct SvgElement<'a> {
 }
 
 impl<'a> SvgElement<'a> {
-    pub fn empty(bounding_box: BoundingBox) -> Self {
+    pub fn empty_root(bounding_box: BoundingBox) -> Self {
         Self {
             bounding_box,
             children: vec![],
-            tag_name: "g",
+            tag_name: "svg",
             attributes: HashMap::with_capacity(0),
         }
     }

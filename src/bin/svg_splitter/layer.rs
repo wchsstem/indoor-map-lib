@@ -32,7 +32,7 @@ impl<'a> Layer<'a> {
         let mut svg = self
             .root_element
             .select_with(&bounds)
-            .unwrap_or(SvgElement::empty(bounds));
+            .unwrap_or_else(|| SvgElement::empty_root(bounds));
         svg.set_attr("viewBox", view_box.into());
         svg.delete_attr("height");
         svg.delete_attr("width");

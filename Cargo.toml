@@ -6,7 +6,7 @@ edition = "2018"
 
 [features]
 compile_map_json = ["structopt"]
-svg_splitter = []
+svg_splitter = ["structopt"]
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }

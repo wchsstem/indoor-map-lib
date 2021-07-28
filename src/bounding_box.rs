@@ -23,11 +23,11 @@ impl BoundingBox {
     }
 
     pub fn get_top_left(&self) -> Vector2<f64> {
-        self.top_left.clone()
+        self.top_left
     }
 
     pub fn get_size(&self) -> Vector2<f64> {
-        self.size.clone()
+        self.size
     }
 
     pub fn get_bottom_right(&self) -> Vector2<f64> {
@@ -68,7 +68,7 @@ impl From<&Data> for BoundingBox {
 
         let top_left = Vector2::new(min_x as f64, min_y as f64);
         let bottom_right = Vector2::new(max_x as f64, max_y as f64);
-        let size = bottom_right - &top_left;
+        let size = bottom_right - top_left;
 
         Self::new(top_left, size)
     }
