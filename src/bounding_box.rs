@@ -1,7 +1,7 @@
 use nalgebra::Vector2;
 use svg::node::element::path::Data;
 
-use crate::svg_path_parser::Path;
+use crate::svg_path_parser::SimpleSvgPath;
 
 #[derive(Clone, Debug)]
 pub struct BoundingBox {
@@ -44,7 +44,7 @@ impl BoundingBox {
 
 impl From<&Data> for BoundingBox {
     fn from(data: &Data) -> Self {
-        let path = Path::from(data);
+        let path = SimpleSvgPath::from(data);
 
         let mut min_x = f32::MAX;
         let mut max_x = f32::MIN;

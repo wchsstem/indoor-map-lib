@@ -13,8 +13,8 @@ impl<'a> Layer<'a> {
     pub fn new(svg_data: &'a str, bounds: BoundingSquare) -> anyhow::Result<Self> {
         let root_element = SvgElement::from_svg_data(svg_data)?;
         Ok(Self {
-            bounds,
             root_element,
+            bounds,
         })
     }
 

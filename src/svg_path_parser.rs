@@ -68,11 +68,11 @@ impl Command {
 }
 
 #[derive(Clone, Debug)]
-pub struct Path {
+pub struct SimpleSvgPath {
     path: Vec<Command>,
 }
 
-impl From<&path::Data> for Path {
+impl From<&path::Data> for SimpleSvgPath {
     fn from(raw_commands: &path::Data) -> Self {
         let path = raw_commands
             .iter()
@@ -96,7 +96,7 @@ impl From<&path::Data> for Path {
     }
 }
 
-impl IntoIterator for Path {
+impl IntoIterator for SimpleSvgPath {
     type Item = Command;
     type IntoIter = <Vec<Command> as IntoIterator>::IntoIter;
 
