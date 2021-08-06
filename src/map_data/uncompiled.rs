@@ -83,16 +83,22 @@ impl MapData {
             .collect()
     }
 
-    fn svg_rooms(image_content: &str) -> impl Iterator<Item = SvgRoom> + '_ {
+    fn svg_rooms(image_content: &str) -> impl Iterator<Item = anyhow::Result<SvgRoom>> + '_ {
         let svg_reader = svg::read(&image_content).expect("SVG must be valid");
-        svg_reader.filter_map(|event| SvgRoom::try_from(event).ok())
+        svg_reader.filter_map(|event| {
+            event
+                .map(|event| SvgRoom::try_from(event).ok())
+                .map_err(|err| err.into())
+                .transpose()
+        })
     }
 
-    pub fn compile(mut self, base_path: &Path) -> compiled::MapData {
+    pub fn compile(mut self, base_path: &Path) -> anyhow::Result<compiled::MapData> {
         let mut compiled_rooms = HashMap::with_capacity(self.rooms.len());
 
         for (image_content, offsets) in self.get_floor_images(base_path) {
             for svg_room in Self::svg_rooms(&image_content) {
+                let svg_room = svg_room?;
                 let outline = svg_room.outline(offsets);
                 let uncompiled_room = match self.rooms.remove(svg_room.get_number()) {
                     Some(old_room) => old_room,
@@ -107,12 +113,12 @@ impl MapData {
             }
         }
 
-        compiled::MapData {
+        Ok(compiled::MapData {
             floors: self.floors,
             vertices: self.vertices,
             rooms: compiled_rooms,
             edges: self.edges,
-        }
+        })
     }
 }
 

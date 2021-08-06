@@ -1,7 +1,7 @@
 use crate::svg_path_parser::SimpleSvgPath;
 use std::convert::TryFrom;
+use svg::events::Event;
 use svg::node::element::path;
-use svg::parser::Event;
 
 #[derive(Debug)]
 pub enum SvgRoomShape {
