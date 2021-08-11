@@ -13,7 +13,7 @@ impl Command {
             RawCommand::HorizontalLine(position, parameters) => {
                 let chunks = parameters.chunks_exact(1);
                 let coords: Vec<_> = match position {
-                    Position::Absolute => chunks.map(|chunk| (chunk[0], last_command.0)).collect(),
+                    Position::Absolute => chunks.map(|chunk| (chunk[0], last_command.1)).collect(),
                     Position::Relative => chunks.map(|chunk| (chunk[0], 0.0)).collect(),
                 };
                 Self::from_coords_position(coords.into_iter(), *position, last_command)
