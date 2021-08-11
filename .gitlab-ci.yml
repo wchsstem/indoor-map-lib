@@ -15,5 +15,7 @@ build:
   artifacts:
     paths:
       - target/release/compile_map_json
+      - target/release/svg_splitter
+      - target/release/map_drawer
   script:
-    - cargo build --release --features compile_map_json
+    - cargo build --release --features=compile_map_json,svg_splitter,map_drawer
