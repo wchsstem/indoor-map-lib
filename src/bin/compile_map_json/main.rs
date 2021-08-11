@@ -25,8 +25,12 @@ fn main() {
 
     let map_data = uncompiled::MapData::new(&input_json).expect("Error in the JSON file");
 
-    let output_data =
-        serde_json::to_string(&map_data.compile(base_path)).expect("Error serializing map data");
+    let output_data = serde_json::to_string(
+        &map_data
+            .compile(base_path)
+            .expect("Error compiling map data"),
+    )
+    .expect("Error serializing map data");
     let mut output = File::create(opt.output).expect("Error before writing to output file");
     write!(output, "{}", output_data).expect("Error while writing to output file");
 }

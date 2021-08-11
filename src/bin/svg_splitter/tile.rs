@@ -1,6 +1,6 @@
 use indoor_map_lib::svg_parser::SvgElement;
 use nalgebra::Vector2;
-use svg::node::element::Element;
+use svg::node::element::GenericElement;
 
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct TileCoords {
@@ -24,7 +24,7 @@ impl<'a> Tile<'a> {
         Self { image }
     }
 
-    pub fn as_element(&self) -> Element {
+    pub fn as_element(&self) -> GenericElement {
         self.image.as_element()
     }
 }

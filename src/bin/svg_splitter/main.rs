@@ -9,6 +9,7 @@ use indoor_map_lib::bounding_box::BoundingSquare;
 
 use crate::layer::Layer;
 use crate::tile_iterator::TileIterator;
+use svg::Document;
 
 mod layer;
 mod tile;
@@ -76,7 +77,8 @@ fn main() -> Result<(), Box<dyn Error>> {
             "{}.{}.{}.svg",
             coords.zoom, coords.location[0], coords.location[1]
         ));
-        svg::save(file_path, &tile.as_element())?;
+        let document = Document::new().add(tile.as_element());
+        svg::save(file_path, document)?;
     }
 
     Ok(())
