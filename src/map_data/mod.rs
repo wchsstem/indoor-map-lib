@@ -67,6 +67,10 @@ pub struct Floor {
 }
 
 impl Floor {
+    pub fn get_number(&self) -> &str {
+        &self.number
+    }
+
     pub fn get_image(&self) -> &PathBuf {
         &self.image
     }
@@ -83,6 +87,12 @@ pub struct Vertex {
     #[serde(default)]
     #[serde(skip_serializing_if = "HashSet::is_empty")]
     tags: HashSet<VertexTag>,
+}
+
+impl Vertex {
+    pub fn get_floor(&self) -> &str {
+        &self.floor
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug)]

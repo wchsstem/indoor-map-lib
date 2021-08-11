@@ -14,11 +14,13 @@ pub struct MapData {
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 pub struct Room {
     pub vertices: HashSet<String>,
+    #[serde(default)]
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub names: Vec<String>,
     pub center: (f32, f32),
     pub outline: Vec<(f32, f32)>,
     pub area: f32,
+    #[serde(default)]
     #[serde(skip_serializing_if = "HashSet::is_empty")]
     pub tags: HashSet<RoomTag>,
 }

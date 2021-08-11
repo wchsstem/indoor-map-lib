@@ -84,7 +84,7 @@ impl MapData {
     }
 
     fn svg_rooms(image_content: &str) -> impl Iterator<Item = anyhow::Result<SvgRoom>> + '_ {
-        let svg_reader = svg::read(&image_content).expect("SVG must be valid");
+        let svg_reader = svg::read(image_content).expect("SVG must be valid");
         svg_reader.filter_map(|event| {
             event
                 .map(|event| SvgRoom::try_from(event).ok())
