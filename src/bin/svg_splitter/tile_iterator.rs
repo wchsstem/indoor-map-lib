@@ -3,15 +3,13 @@ use nalgebra::Vector2;
 
 pub struct TileIterator {
     coords: Option<TileCoords>,
-    max_zoom_level: u32,
 }
 
 impl TileIterator {
-    pub fn new(min_zoom_level: u32, max_zoom_level: u32) -> Self {
-        let initial_coords = TileCoords::new(Vector2::new(0, 0), min_zoom_level);
+    pub fn new(zoom_level: u32) -> Self {
+        let initial_coords = TileCoords::new(Vector2::new(0, 0), zoom_level);
         Self {
             coords: Some(initial_coords),
-            max_zoom_level,
         }
     }
 
@@ -35,12 +33,7 @@ impl Iterator for TileIterator {
                 if coords.location[1] < max_coords {
                     coords.location[1] += 1;
                 } else {
-                    coords.location[1] = 0;
-                    if coords.zoom < self.max_zoom_level {
-                        coords.zoom += 1;
-                    } else {
-                        self.coords = None;
-                    }
+                    self.coords = None;
                 }
             }
         }

@@ -30,16 +30,9 @@ struct Opt {
         short = "m",
         long,
         default_value = "0",
-        help = "minimum zoom level to create tiles for (no less than 0)"
+        help = "zoom level to create tiles for (no less than 0)"
     )]
-    min_zoom_level: u32,
-    #[structopt(
-        short = "M",
-        long,
-        default_value = "3",
-        help = "maximum zoom level to create tiles for (no less than 0)"
-    )]
-    max_zoom_level: u32,
+    zoom_level: u32,
     #[structopt(
         short = "x",
         long,
@@ -70,7 +63,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let layer_bounds = BoundingSquare::new(Vector2::new(opt.top_left_x, opt.top_left_y), opt.size);
     let layer = Layer::new(&svg_data, layer_bounds)?;
 
-    for coords in TileIterator::new(opt.min_zoom_level, opt.max_zoom_level) {
+    for coords in TileIterator::new(opt.zoom_level) {
         let tile = layer.tile(&coords);
         let mut file_path = opt.output.clone();
         file_path.push(format!(
