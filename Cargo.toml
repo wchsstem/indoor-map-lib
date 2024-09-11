@@ -1,8 +1,8 @@
 [package]
 name = "indoor-map-lib"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["nvarner <nathanmvarner@protonmail.com>"]
-edition = "2018"
+edition = "2024"
 
 [features]
 compile_map_json = ["structopt"]
@@ -10,12 +10,12 @@ svg_splitter = ["structopt"]
 map_drawer = ["structopt"]
 [dependencies]
 serde = { version = "1.0.210", features = ["derive"] }
-serde_json = "1.0"
-thiserror = "1.0"
+serde_json = "1.0.210"
+thiserror = "1.0.63"
 svg = { git = "https://github.com/nvarner/svg.git", rev = "6986fdb2005a98efa392ea39407d63134dcdc4cd" }
-nalgebra = "0.27"
-anyhow = "1.0"
-structopt = { version = "0.3", optional = true }
+nalgebra = "0.33"
+anyhow = "1.0.87"
+structopt = { version = "0.3.26", optional = true }
 
 [dev-dependencies]
 common_macros = "0.1"
