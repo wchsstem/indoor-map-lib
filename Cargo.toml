@@ -16,7 +16,7 @@ thiserror = "1.0"
 svg = { git = "https://github.com/nvarner/svg.git", rev = "6986fdb2005a98efa392ea39407d63134dcdc4cd" }
 nalgebra = "0.27"
 anyhow = "1.0"
-cargo-features = ["edition2021"]
+cargo-features = {"edition2021"}
 structopt = { version = "0.3", optional = true }
 
 [dev-dependencies]
