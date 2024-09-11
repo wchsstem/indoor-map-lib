@@ -1,6 +1,6 @@
 [package]
 name = "indoor-map-lib"
-version = "1.0"
+version = "0.1.1"
 authors = ["nvarner <nathanmvarner@protonmail.com>"]
 edition = "2021"
 
