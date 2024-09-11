@@ -1,4 +1,4 @@
-cargo-features = ["edition2021"]`
+cargo-features = ["edition2021"]
 [package]
 name = "indoor-map-lib"
 version = "0.1.0"
